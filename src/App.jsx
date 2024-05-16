@@ -1,32 +1,12 @@
 import { useState } from 'react'
 import './App.css'
 
-// 1. SetState 파라미터가 새로운 상태"값"
-function IncreaseButtonComponent({ count, setCount } /* Object Deconstructure 객체 비구조화 */) {
-  // console.log('props : ', props)
+// State Lifting : 부모 컴포넌트가 가지고 있는 상태 변경을 위한 Controller = SetState 를 자식 컴포넌트가 호출
+// '상태 끌어올리기' = 부모의 SetState 호출을 자식에게 넘긴다.
+function ButtonComponent({ className, onClick, children }) {
   return (
-    <button
-      className='increase-button'
-      onClick={() => {
-        // props.setCount(props.count + 1)
-        setCount(count + 1)
-      }}
-    >
-      증가
-    </button>
-  )
-}
-
-// 2. SetState 파라미터가 새로운 상태를 생성하는 "함수"
-function DecreaseButtonComponent({ setCount }) {
-  return (
-    <button
-      className='decrease-button'
-      onClick={() => {
-        setCount((previousCount) => previousCount - 1)
-      }}
-    >
-      감소
+    <button className={className} onClick={onClick}>
+      {children}
     </button>
   )
 }
@@ -42,8 +22,22 @@ function App() {
     <>
       <div style={{ marginBottom: 10 }}>{count}</div>
       <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-        <IncreaseButtonComponent count={count} setCount={setCount} />
-        <DecreaseButtonComponent setCount={setCount} />
+        <ButtonComponent
+          className={'increase-button'}
+          onClick={() => {
+            setCount((previousCount) => previousCount + 1)
+          }}
+        >
+          증가
+        </ButtonComponent>
+        <ButtonComponent
+          className='decrease-button'
+          onClick={() => {
+            setCount((previousCount) => previousCount - 1)
+          }}
+        >
+          감소
+        </ButtonComponent>
       </div>
     </>
   )
