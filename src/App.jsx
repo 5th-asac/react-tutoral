@@ -8,7 +8,7 @@ function ListItemComponent({ item: person, children, setPeople }) {
   return (
     <li
       onClick={(e) => {
-        setActivated(!activated)
+        setActivated((prev) => !prev)
       }}
     >
       <div>{children}</div>
@@ -46,6 +46,7 @@ function ListItemComponent({ item: person, children, setPeople }) {
               // 2. SetChangedDescription 를 통한 롤백
               // console.log('원상복귀 되었습니다.')
               setChangedDescription(person.desc)
+              setActivated((prev) => !prev)
             }}
           >
             취소
