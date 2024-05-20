@@ -2,23 +2,23 @@ import { useState, useRef } from 'react'
 import './App.css'
 
 function App() {
-  const textReference = useRef()
-  console.log('Re-rendered !')
+  const videoReference = useRef()
   return (
     <>
-      <div className='not-modified' ref={textReference}>
-        Ref 를 통한 DOM 조작
-      </div>
+      <video ref={videoReference} autoPlay controls />
       <button
         onClick={() => {
-          if (textReference.current.className === 'not-modified') {
-            textReference.current.className = 'modified'
-          } else {
-            textReference.current.className = 'not-modified'
-          }
+          videoReference.current.src = 'https://vjs.zencdn.net/v/oceans.mp4'
         }}
       >
-        변경
+        전환 1
+      </button>
+      <button
+        onClick={() => {
+          videoReference.current.src = 'https://lamberta.github.io/html5-animation/examples/ch04/assets/movieclip.mp4'
+        }}
+      >
+        전환 2
       </button>
     </>
   )
