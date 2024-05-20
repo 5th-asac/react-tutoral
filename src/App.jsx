@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 
 function App() {
-  const [visible, setVisible] = useState(false)
+  const passwordReference = useRef()
   return (
     <div>
       <>
@@ -12,16 +12,21 @@ function App() {
       </>
       <>
         <div>패스워드</div>
-        {/* 1. DOM "요소 자체"를 삼항 연산자로 */}
-        {/* {visible ? <input type='text' /> : <input type='password' />} */}
-        {/* 2. DOM 요소 내 "속성(Attribute)"을 삼항 연산자로 = 중복의 최소화 */}
-        <input type={visible ? 'text' : 'password'} />
+        <input ref={passwordReference} type='password' />
         <button
-          onClick={() => {
-            setVisible((prev) => !prev)
+          onClick={(e) => {
+            if (passwordReference.current.type === 'password') {
+              passwordReference.current.type = 'text'
+              e.target.innerText = '안보임'
+              // e.target = buttonReference.current
+              // 속성 접근 똑같이 하면됨 e.target.innerText = buttonReference.current.innerText
+            } else {
+              passwordReference.current.type = 'password'
+              e.target.innerText = '보임'
+            }
           }}
         >
-          {visible ? '안보임' : '보임'}
+          보임
         </button>
         <div>비밀번호 검증 에러 메세지</div>
       </>
