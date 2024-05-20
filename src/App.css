@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.modified {
+  opacity: 1;
+  transition: all 1s ease-out;
+}
+
+.not-modified {
+  opacity: 0;
+  transition: all 1s ease-out;
+}

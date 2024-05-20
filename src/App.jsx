@@ -6,13 +6,15 @@ function App() {
   console.log('Re-rendered !')
   return (
     <>
-      <div ref={textReference}>Ref 를 통한 DOM 조작</div>
+      <div className='not-modified' ref={textReference}>
+        Ref 를 통한 DOM 조작
+      </div>
       <button
         onClick={() => {
-          if (textReference.current.style.color === 'white') {
-            textReference.current.style.color = 'red'
+          if (textReference.current.className === 'not-modified') {
+            textReference.current.className = 'modified'
           } else {
-            textReference.current.style.color = 'white'
+            textReference.current.className = 'not-modified'
           }
         }}
       >
