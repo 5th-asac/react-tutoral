@@ -2,7 +2,9 @@ import { useState, useContext, createContext } from 'react'
 import './App.css'
 
 function TC() {
-  const count = useContext(CreatedContext)
+  // const count = useContext(CreatedContext)
+  const { count } = useContext(CreatedContext)
+
   return (
     <div className='component-box' style={{ padding: 10 }}>
       Third Component : {count}
@@ -28,11 +30,19 @@ function FC() {
   )
 }
 
-function NonContextComponent({ onClick }) {
+function NonContextComponent() {
+  const { setCount } = useContext(CreatedContext)
+
   return (
     <div className='component-box' style={{ padding: 10 }}>
       NonContextComponent
-      <button onClick={onClick}>증가</button>
+      <button
+        onClick={() => {
+          setCount((prev) => prev + 1)
+        }}
+      >
+        증가
+      </button>
     </div>
   )
 }
@@ -44,11 +54,11 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <CreatedContext.Provider value={count}>
+    <CreatedContext.Provider value={{ count, setCount }}>
       {/* 2. 전역 상태를 사용할 범주를 정의하기 위한 ()= 감싸주기 위한) "Provider 컴포넌트" 정의 */}
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16 }}>
         <FC />
-        <NonContextComponent onClick={() => setCount((prev) => prev + 1)} />
+        <NonContextComponent />
       </div>
     </CreatedContext.Provider>
   )
