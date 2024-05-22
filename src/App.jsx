@@ -1,12 +1,12 @@
 import { useReducer, useState } from "react";
 import "./App.css";
 
-function reducer(previousState, action) {
-  switch (action.type) {
-    case 'INCREASE_TEN':
-      return previousState + 10
-    case 'DECREASE_TEN':
-      return previousState - 10
+function reducer(previousState, { type, value }/* action */) {
+  switch (type) {
+    case 'INCREASE':
+      return previousState + value
+    case 'DECREASE':
+      return previousState - value
     default: 
       throw new Error('정의되어있지 않은 action 입니다.')
   }
@@ -19,8 +19,8 @@ function App() {
   return (
     <>
       <>{count}</>
-      <button onClick={() => dispatch({ type: 'INCREASE_TEN' }) }>증가</button>
-      <button onClick={() => dispatch({ type: 'DECREASE_TEN' }) }>감소</button>
+      <button onClick={() => dispatch({ type: 'INCREASE', value: 5 }/* action */) }>증가</button>
+      <button onClick={() => dispatch({ type: 'DECREASE', value: 8 }/* action */) }>감소</button>
     </>
   );
 }
