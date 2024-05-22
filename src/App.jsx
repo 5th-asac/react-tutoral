@@ -3,11 +3,16 @@ import './App.css'
 
 function TC() {
   // const count = useContext(CreatedContext)
-  const { count } = useContext(CreatedContext)
+  // const { count } = useContext(CreatedContext)
 
   return (
     <div className='component-box' style={{ padding: 10 }}>
-      Third Component : {count}
+      Third Component :
+      <CreatedContext.Consumer>
+        {({ count }) => {
+          return <>{count}</>
+        }}
+      </CreatedContext.Consumer>
     </div>
   )
 }
@@ -63,5 +68,11 @@ function App() {
     </CreatedContext.Provider>
   )
 }
+
+/* 
+  좋은 질문 : 그럼 Provider 하위의 컴포넌트들은 consume하지 않는한,
+  상태를 가진 부모 컴포넌트가 리렌더되더라도,
+  하위 컴포넌트들은 리렌더되지 않는건가요:?
+*/
 
 export default App
