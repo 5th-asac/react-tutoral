@@ -5,8 +5,10 @@ function App() {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
-    console.log('changed ! : ', count)
-  }, [(count % 3) === 0/* useEffect 안의 함수를 수행할지/말지를 판단하는 기준 : 의존성 배열 (Dependancy Array) */])
+    if (count % 3 === 0) {
+      console.log('changed ! : ', count)
+    }
+  }, [count/* useEffect 안의 함수를 수행할지/말지를 판단하는 기준 : 의존성 배열 (Dependancy Array) */])
 
   return (
     <>
