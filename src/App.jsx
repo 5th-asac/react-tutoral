@@ -11,16 +11,17 @@ function AdditionalRender() {
 }
 
 function TC() {
-  // const count = useContext(CountContext)
+  const { count } = useContext(CountContext)
   console.log('Third Component Rerendered')
   return (
     <div className='component-box' style={{ padding: 10 }}>
       Third Component
-      <CountContext.Consumer>
+      {count}
+      {/* <CountContext.Consumer>
         {(count) => {
           return <>{count}</>
         }}
-      </CountContext.Consumer>
+      </CountContext.Consumer> */}
       <AdditionalRender />
     </div>
   )
@@ -37,11 +38,13 @@ function SC() {
 }
 
 function FC() {
+  const { setCount } = useContext(CountContext)
   console.log('First Component Rerendered')
   return (
     <div className='component-box' style={{ padding: 10 }}>
       First Component
       <SC />
+      <button onClick={() => setCount((prev) => prev + 1)}>증가</button>
     </div>
   )
 }
@@ -58,14 +61,13 @@ function NonContextComponent() {
 
 const CountContext = createContext(-10 /* DV : default value */)
 
+// function hello(a, b, c, d) {}
+// function hello({ a, b, c, d }) {}
+
 function CountContextProvider({ children }) {
   const [count, setCount] = useState(0)
-  return (
-    <CountContext.Provider value={count /* IV : initial value */}>
-      {children}
-      <button onClick={() => setCount((prev) => prev + 1)}>증가</button>
-    </CountContext.Provider>
-  )
+  // const object = {count, setCount}
+  return <CountContext.Provider value={{ count, setCount }}>{children}</CountContext.Provider>
 }
 
 function App() {
