@@ -1,23 +1,33 @@
-import { useState, useContext, createContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 import './App.css'
 
-function TC() {
-  // const count = useContext(CreatedContext)
-  // const { count } = useContext(CreatedContext)
-
+function AdditionalRender() {
+  console.log('AdditionalRender Rerendered')
   return (
     <div className='component-box' style={{ padding: 10 }}>
-      Third Component :
-      <CreatedContext.Consumer>
-        {({ count }) => {
+      AdditionalRender
+    </div>
+  )
+}
+
+function TC() {
+  // const count = useContext(CountContext)
+  console.log('Third Component Rerendered')
+  return (
+    <div className='component-box' style={{ padding: 10 }}>
+      Third Component
+      <CountContext.Consumer>
+        {(count) => {
           return <>{count}</>
         }}
-      </CreatedContext.Consumer>
+      </CountContext.Consumer>
+      <AdditionalRender />
     </div>
   )
 }
 
 function SC() {
+  console.log('Second Component Rerendered')
   return (
     <div className='component-box' style={{ padding: 10 }}>
       Second Component
@@ -27,6 +37,7 @@ function SC() {
 }
 
 function FC() {
+  console.log('First Component Rerendered')
   return (
     <div className='component-box' style={{ padding: 10 }}>
       First Component
@@ -36,43 +47,37 @@ function FC() {
 }
 
 function NonContextComponent() {
-  const { setCount } = useContext(CreatedContext)
-
+  const count = useContext(CountContext)
+  console.log('NonContextComponent Rerendered')
   return (
     <div className='component-box' style={{ padding: 10 }}>
-      NonContextComponent
-      <button
-        onClick={() => {
-          setCount((prev) => prev + 1)
-        }}
-      >
-        증가
-      </button>
+      Non-Context Component{count}
     </div>
   )
 }
 
-// 1. 나 Context 쓸게? 오키? 만든다?
-const CreatedContext = createContext()
+const CountContext = createContext(-10 /* DV : default value */)
 
-function App() {
+function CountContextProvider({ children }) {
   const [count, setCount] = useState(0)
-
   return (
-    <CreatedContext.Provider value={{ count, setCount }}>
-      {/* 2. 전역 상태를 사용할 범주를 정의하기 위한 ()= 감싸주기 위한) "Provider 컴포넌트" 정의 */}
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16 }}>
-        <FC />
-        <NonContextComponent />
-      </div>
-    </CreatedContext.Provider>
+    <CountContext.Provider value={count /* IV : initial value */}>
+      {children}
+      <button onClick={() => setCount((prev) => prev + 1)}>증가</button>
+    </CountContext.Provider>
   )
 }
 
-/* 
-  좋은 질문 : 그럼 Provider 하위의 컴포넌트들은 consume하지 않는한,
-  상태를 가진 부모 컴포넌트가 리렌더되더라도,
-  하위 컴포넌트들은 리렌더되지 않는건가요:?
-*/
+function App() {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16 }}>
+      {/* 나, CountContext 는 다음의 Provider 범주에 있는 자식들에게 value 상태를 전역으로 제공(Provide)하겠다 */}
+      <CountContextProvider>
+        <FC />
+      </CountContextProvider>
+      <NonContextComponent />
+    </div>
+  )
+}
 
 export default App
